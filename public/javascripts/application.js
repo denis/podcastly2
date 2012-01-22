@@ -6,7 +6,13 @@
 
         parse: function (response) {
             return {
-                title: response.title
+                title: response.title,
+                episodes: new Episodes(response.items.map(function (item) {
+                    return {
+                        title: item.title,
+                        published: moment(item.published * 1000)
+                    };
+                }))
             };
         }
     });
@@ -24,6 +30,13 @@
         },
     });
 
+    window.Episode = Backbone.Model.extend({
+    });
+
+    window.Episodes = Backbone.Collection.extend({
+        model: Episode
+    });
+
     var PodcastView = Backbone.View.extend({
         tagName: 'li',
         className: 'podcast',
@@ -34,13 +47,16 @@
         },
 
         render: function () {
+            var episodeListView = new EpisodeListView({ collection: this.model.get('episodes') || new Episodes() });
+
             $(this.el).html(this.model.get('title') || this.model.get('url'));
+            $(this.el).append(episodeListView.render().el);
 
             return this;
         }
     });
 
-    var PodcastsView = Backbone.View.extend({
+    var PodcastListView = Backbone.View.extend({
         tagName: 'ul',
         id: 'podcasts',
 
@@ -61,19 +77,56 @@
         }
     });
 
+    var EpisodeView = Backbone.View.extend({
+        tagName: 'li',
+        className: 'episode',
+
+        initialize: function () {
+            _.bindAll(this, 'render');
+            this.model.bind('change', this.render);
+        },
+
+        render: function () {
+            $(this.el).html(this.model.get('title')).append(' <small>' + this.model.get('published').format("MM/DD/YYYY") + '</small>');
+
+            return this;
+        }
+    });
+
+    var EpisodeListView = Backbone.View.extend({
+        tagName: 'ul',
+        className: 'episodes',
+
+        initialize: function () {
+            _.bindAll(this, 'render');
+            this.collection.bind('reset', this.render);
+        },
+
+        render: function () {
+            $episodes = $(this.el).html('');
+
+            this.collection.each(function (episode) {
+                var view = new EpisodeView({ model: episode });
+                $episodes.append(view.render().el);
+            });
+
+            return this;
+        }
+    });
+
     var Podcastly = Backbone.Router.extend({
         routes: {
             '': 'home'
         },
 
         initialize: function () {
-            this.podcastsView = new PodcastsView({
+            this.podcastListView = new PodcastListView({
                 collection: window.podcasts
             });
         },
 
         home: function () {
-            $('#container').empty().append(this.podcastsView.render().el);
+            $('#container').empty().append(this.podcastListView.render().el);
         }
     });
 
