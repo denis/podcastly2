@@ -7,10 +7,13 @@
         parse: function (response) {
             return {
                 title: response.title,
-                episodes: new Episodes(response.items.map(function (item) {
+                episodes: new Episodes(_(response.items).reject(function (item) {
+                    return !item.enclosure;
+                }).map(function (item) {
                     return {
                         title: item.title,
-                        published: moment(item.published * 1000)
+                        published: moment(item.published * 1000),
+                        enclosureUrl: item.enclosure[0].href
                     };
                 }))
             };
@@ -84,10 +87,12 @@
         initialize: function () {
             _.bindAll(this, 'render');
             this.model.bind('change', this.render);
+            this.template = _.template($('#episode-template').html());
         },
 
         render: function () {
-            $(this.el).html(this.model.get('title')).append(' <small>' + this.model.get('published').format("MM/DD/YYYY") + '</small>');
+            var renderedContent = this.template(this.model.toJSON());
+            $(this.el).html(renderedContent);
 
             return this;
         }
