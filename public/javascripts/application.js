@@ -1,7 +1,7 @@
 (function ($) {
     var Podcast = Backbone.Model.extend({
         url: function () {
-            return 'http://jsonpify.heroku.com?resource=http://www.google.com/reader/api/0/stream/contents/feed/' + this.get('url') + '?n=5&callback=?'
+            return 'http://jsonpify.heroku.com?resource=http://www.google.com/reader/api/0/stream/contents/feed/' + this.get('url') + '?n=10&callback=?'
         },
 
         parse: function (response) {
@@ -50,12 +50,21 @@
         },
 
         render: function () {
-            var episodeListView = new EpisodeListView({ collection: this.model.get('episodes') || new Episodes() });
-
             $(this.el).html(this.model.get('title') || this.model.get('url'));
-            $(this.el).append(episodeListView.render().el);
 
             return this;
+        },
+
+        events: {
+            'click': 'showEpisodes'
+        },
+
+        showEpisodes: function() {
+            App.episodeListView.collection.reset(this.model.get('episodes').models);
+
+            // TODO: refactor me.
+            // I think it's wrong. I should not rely on element classes from the other views.
+            $(this.el).parent().find('.podcast').removeClass('selected').end().end().addClass('selected');
         }
     });
 
@@ -100,7 +109,7 @@
 
     var EpisodeListView = Backbone.View.extend({
         tagName: 'ul',
-        className: 'episodes',
+        id: 'episodes',
 
         initialize: function () {
             _.bindAll(this, 'render');
@@ -115,6 +124,8 @@
                 $episodes.append(view.render().el);
             });
 
+            $episodes.show();
+
             return this;
         }
     });
@@ -127,11 +138,17 @@
         initialize: function () {
             this.podcastListView = new PodcastListView({
                 collection: window.podcasts
+            }),
+
+            this.episodeListView = new EpisodeListView({
+                collection: new Episodes()
             });
         },
 
         home: function () {
-            $('#container').empty().append(this.podcastListView.render().el);
+            $('#container').empty()
+                .append(this.podcastListView.render().el)
+                .append(this.episodeListView.render().el);
         }
     });
 

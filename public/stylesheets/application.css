@@ -1,0 +1,41 @@
+html, body, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 1em;
+}
+
+#podcasts,
+#episodes {
+    list-style: none;
+    border: 1px solid #dadada;
+}
+
+#podcasts {
+    width: 20em;
+    float: left;
+}
+
+#episodes {
+    width: 40em;
+    margin-left: 21em;
+    display: none;
+}
+
+#podcasts li,
+#episodes li {
+    padding: 0.5em;
+    border-bottom: 1px solid #dadada;
+    cursor: pointer;
+}
+
+#podcasts li:last-child,
+#episodes li:last-child {
+    border-bottom-width: 0;
+}
+
+#podcasts li.selected {
+    background: #eee;
+}
