@@ -1,3 +1,7 @@
-require './lib/server'
+require 'rubygems'
+require 'bundler'
 
-run Sinatra::Application
+Bundler.require
+
+require './podcastly'
+run Podcastly

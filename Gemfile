@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'sinatra'
+gem 'sinatra', :require => 'sinatra/base'
 
 group :development do
   gem 'heroku'
