@@ -18,7 +18,7 @@ var PodcastView = Backbone.View.extend({
     },
 
     showEpisodes: function() {
-        App.episodeListView.collection.reset(this.model.get('episodes').models);
+        App.episodesView.collection.reset(this.model.get('episodes').models);
 
         // TODO: refactor me.
         // I think it's wrong. I should not rely on element classes from the other views.

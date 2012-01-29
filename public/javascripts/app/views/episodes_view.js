@@ -1,4 +1,4 @@
-var EpisodeListView = Backbone.View.extend({
+var EpisodesView = Backbone.View.extend({
     tagName: 'ul',
     id: 'episodes',
 

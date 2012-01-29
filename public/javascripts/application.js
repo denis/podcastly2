@@ -5,19 +5,19 @@
         },
 
         initialize: function () {
-            this.podcastListView = new PodcastListView({
+            this.podcastsView = new PodcastsView({
                 collection: window.podcasts
             }),
 
-            this.episodeListView = new EpisodeListView({
+            this.episodesView = new EpisodesView({
                 collection: new Episodes()
             });
         },
 
         home: function () {
             $('#container').empty()
-                .append(this.podcastListView.render().el)
-                .append(this.episodeListView.render().el);
+                .append(this.podcastsView.render().el)
+                .append(this.episodesView.render().el);
         }
     });
 
