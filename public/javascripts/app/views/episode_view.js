@@ -4,8 +4,7 @@ var EpisodeView = Backbone.View.extend({
     template: EpisodeTemplate,
 
     initialize: function () {
-        _.bindAll(this, 'render');
-        this.model.bind('change', this.render);
+        this.model.bind('change', this.render, this);
     },
 
     render: function () {

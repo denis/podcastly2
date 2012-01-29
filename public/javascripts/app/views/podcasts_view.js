@@ -3,8 +3,7 @@ var PodcastsView = Backbone.View.extend({
     id: 'podcasts',
 
     initialize: function () {
-        _.bindAll(this, 'render');
-        this.collection.bind('reset', this.render);
+        this.collection.bind('reset', this.render, this);
     },
 
     render: function () {

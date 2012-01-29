@@ -3,8 +3,7 @@ var PodcastView = Backbone.View.extend({
     className: 'podcast',
 
     initialize: function () {
-        _.bindAll(this, 'render');
-        this.model.bind('change', this.render);
+        this.model.bind('change', this.render, this);
     },
 
     render: function () {
