@@ -1,6 +1,9 @@
 var PodcastView = Backbone.View.extend({
     tagName: 'li',
     className: 'podcast',
+    events: {
+        'click': 'select'
+    },
 
     initialize: function () {
         this.model.bind('change', this.render, this);
@@ -12,15 +15,11 @@ var PodcastView = Backbone.View.extend({
         return this;
     },
 
-    events: {
-        'click': 'showEpisodes'
-    },
-
-    showEpisodes: function() {
-        App.episodesView.collection.reset(this.model.get('episodes').models);
-
-        // TODO: refactor me.
-        // I think it's wrong. I should not rely on element classes from the other views.
-        $(this.el).parent().find('.podcast').removeClass('selected').end().end().addClass('selected');
+    select: function() {
+        // Don't allow to select not loaded podcast
+        if (this.model.get('episodes')) {
+            App.episodesView.collection.reset(this.model.get('episodes').models);
+            this.collection.trigger('select', this.model);
+        }
     }
 });

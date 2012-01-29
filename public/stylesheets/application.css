@@ -36,6 +36,6 @@ body {
     border-bottom-width: 0;
 }
 
-#podcasts li.selected {
+#podcasts li.current {
     background: #eee;
 }
