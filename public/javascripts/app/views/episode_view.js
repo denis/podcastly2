@@ -1,16 +1,15 @@
 var EpisodeView = Backbone.View.extend({
     tagName: 'li',
     className: 'episode',
+    template: EpisodeTemplate,
 
     initialize: function () {
         _.bindAll(this, 'render');
         this.model.bind('change', this.render);
-        this.template = _.template($('#episode-template').html());
     },
 
     render: function () {
-        var renderedContent = this.template(this.model.toJSON());
-        $(this.el).html(renderedContent);
+        $(this.el).html(this.template(this.model.toJSON()));
 
         return this;
     }
