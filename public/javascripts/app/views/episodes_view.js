@@ -7,7 +7,7 @@ var EpisodesView = Backbone.View.extend({
     },
 
     render: function () {
-        $episodes = $(this.el).html('');
+        $episodes = this.$el.html('');
 
         this.collection.each(function (episode) {
             var view = new EpisodeView({ model: episode });

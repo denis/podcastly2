@@ -10,7 +10,7 @@ var PodcastView = Backbone.View.extend({
     },
 
     render: function () {
-        $(this.el).html(this.model.get('title') || this.model.get('url'));
+        this.$el.html(this.model.get('title') || this.model.get('url'));
 
         return this;
     },

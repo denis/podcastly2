@@ -8,5 +8,5 @@ var Podcasts = Backbone.Collection.extend({
                 podcast.fetch();
             });
         });
-    },
+    }
 });

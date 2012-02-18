@@ -7,6 +7,7 @@ var Podcast = Backbone.Model.extend({
     parse: function (response) {
         return {
             title: response.title,
+            url: response.url || this.get('url'),
             episodes: new Episodes(_(response.items).reject(function (item) {
                 return !item.enclosure;
             }).map(function (item) {

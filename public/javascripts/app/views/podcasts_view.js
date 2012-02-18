@@ -8,7 +8,7 @@ var PodcastsView = Backbone.View.extend({
     },
 
     render: function () {
-        var $podcasts = $(this.el).html('');
+        var $podcasts = this.$el.html('');
         var collection = this.collection;
 
         this.collection.each(function (podcast) {
