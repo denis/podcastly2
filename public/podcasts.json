@@ -16,5 +16,11 @@
     },
     {
         "url": "http://feeds.rucast.net/radio-t"
+    },
+    {
+        "url": "http://programma.podfm.ru/rss/rss.xml"
+    },
+    {
+        "url": "http://donetsk.podfm.ru/uzcast/rss/rss.xml"
     }
 ]
